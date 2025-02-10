@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -26,6 +28,8 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
 
+        auth = FirebaseAuth.getInstance()
+
         // Configure Google Sign-In
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
@@ -33,10 +37,27 @@ class MainActivity : AppCompatActivity() {
             .build()
 
         googleSignInClient = GoogleSignIn.getClient(this, gso)
-        auth = FirebaseAuth.getInstance()
 
-        // Set up Google Sign-In button
-        findViewById<Button>(R.id.main_activity_signIn_button).setOnClickListener {
+        // Setup UI Elements
+        val emailInput = findViewById<EditText>(R.id.main_activity_email_input_edit_text)
+        val passwordInput = findViewById<EditText>(R.id.main_activity_password_input_edit_text)
+        val signupButton = findViewById<Button>(R.id.main_activity_signUp_button)
+        val googleSignInButton = findViewById<Button>(R.id.main_activity_signIn_button)
+
+        // Handle Email Signup
+        signupButton.setOnClickListener {
+            val email = emailInput.text.toString().trim()
+            val password = passwordInput.text.toString().trim()
+
+            if (email.isNotEmpty() && password.length >= 6) {
+                registerUser(email, password)
+            } else {
+                Toast.makeText(this, "Enter valid email and password (min 6 chars)", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        // Handle Google Sign-In
+        googleSignInButton.setOnClickListener {
             signIn()
         }
 
@@ -48,6 +69,21 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // Email & Password Signup
+    private fun registerUser(email: String, password: String) {
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    Toast.makeText(this, "Signup successful!", Toast.LENGTH_SHORT).show()
+                    Log.d("FirebaseAuth", "Signup successful")
+                } else {
+                    Toast.makeText(this, "Signup failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                    Log.w("FirebaseAuth", "Signup failed", task.exception)
+                }
+            }
+    }
+
+    // Google Sign-In Methods
     private val signInLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == RESULT_OK) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
