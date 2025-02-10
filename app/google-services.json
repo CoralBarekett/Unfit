@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "280593670117",
+    "project_id": "unfit-142fd",
+    "storage_bucket": "unfit-142fd.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:280593670117:android:e8e353f11999249643990c",
+        "android_client_info": {
+          "package_name": "com.app.unfit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "280593670117-dd2aes0ivl06p1k1d1ed6e9jj12nepcf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.app.unfit",
+            "certificate_hash": "8da7e520749927b0f5727ae7248f490742084ffb"
+          }
+        },
+        {
+          "client_id": "280593670117-thhi8nq3sulls2ma2io1db9kem4oo2ad.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPruYJC9JE9Klk8OZIe10WHOxohDESX6E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "280593670117-thhi8nq3sulls2ma2io1db9kem4oo2ad.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
