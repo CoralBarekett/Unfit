@@ -15,9 +15,14 @@
         android:theme="@style/Theme.Unfit"
         tools:targetApi="31">
         <activity
-            android:name=".HomeActivity"
+            android:name=".LoginActivity"
             android:exported="false" />
-        <!-- Google Sign-In Metadata -->
+        <activity
+            android:name=".SignUpActivity"
+            android:exported="false" />
+        <activity
+            android:name=".HomeActivity"
+            android:exported="false" /> <!-- Google Sign-In Metadata -->
         <meta-data
             android:name="com.google.android.gms.auth.api.signin"
             android:value="@string/default_web_client_id" />

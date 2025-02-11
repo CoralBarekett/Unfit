@@ -8,7 +8,7 @@
 
     <!-- Welcome Text -->
     <TextView
-        android:id="@+id/welcomeText"
+        android:id="@+id/home_activity_welcome_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Welcome!"
@@ -24,7 +24,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Logout"
-        app:layout_constraintTop_toBottomOf="@id/welcomeText"
+        android:backgroundTint="#B473BD"
+        app:layout_constraintTop_toBottomOf="@id/home_activity_welcome_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="20dp"/>
