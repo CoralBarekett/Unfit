@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.MenuItem
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
@@ -13,6 +14,8 @@ import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.GoogleAuthProvider
 
 class LoginActivity : AppCompatActivity() {
@@ -40,16 +43,36 @@ class LoginActivity : AppCompatActivity() {
             val email = emailInput.text.toString().trim()
             val password = passwordInput.text.toString().trim()
 
-            if (email.isNotEmpty() && password.isNotEmpty()) {
-                auth.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(this) { task ->
-                        if (task.isSuccessful) {
-                            navigateToHome()
-                        } else {
-                            Log.w("FirebaseAuth", "Login failed", task.exception)
-                        }
-                    }
+            if (email.isEmpty()) {
+                emailInput.error = "Email is required"
+                return@setOnClickListener
             }
+
+            if (password.isEmpty()) {
+                passwordInput.error = "Password is required"
+                return@setOnClickListener
+            }
+
+            // Show a loading indicator
+            loginButton.isEnabled = false
+
+            auth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this) { task ->
+                    loginButton.isEnabled = true
+                    if (task.isSuccessful) {
+                        navigateToHome()
+                    } else {
+                        // Show error message to user
+                        val errorMessage = when (task.exception) {
+                            is FirebaseAuthInvalidCredentialsException -> "Invalid email or password"
+                            is FirebaseAuthInvalidUserException -> "No account found with this email"
+                            else -> "Login failed: ${task.exception?.message}"
+                        }
+                        // You can show this in a Toast or Snackbar
+                        Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show()
+                        Log.w("FirebaseAuth", "Login failed", task.exception)
+                    }
+                }
         }
 
         // Initialize Google Sign-In
@@ -58,7 +81,7 @@ class LoginActivity : AppCompatActivity() {
             .setGoogleIdTokenRequestOptions(
                 BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
                     .setSupported(true)
-                    .setServerClientId(getString(R.string.default_web_client_id)) // Add this in strings.xml from Firebase Console
+                    .setServerClientId(getString(R.string.default_web_client_id))
                     .setFilterByAuthorizedAccounts(false)
                     .build()
             )
@@ -110,7 +133,10 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun navigateToHome() {
-        startActivity(Intent(this, HomeActivity::class.java))
+        val intent = Intent(this, HomeActivity::class.java)
+        // Clear the back stack so user can't go back to login screen
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
         finish()
     }
 
