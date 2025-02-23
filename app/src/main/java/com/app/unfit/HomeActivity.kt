@@ -6,6 +6,7 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -60,6 +61,7 @@ class HomeActivity : AppCompatActivity() {
         try {
             initializeFirebase()
             setupLogout()
+            setupProfileButton()
             setupRecyclerView()
             fetchPosts()
 
@@ -69,6 +71,13 @@ class HomeActivity : AppCompatActivity() {
         } catch (e: Exception) {
             Log.e("HomeActivity", "Error in onCreate", e)
             Toast.makeText(this, "Error initializing Home screen", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun setupProfileButton() {
+        findViewById<ImageButton>(R.id.home_activity_profile_button).setOnClickListener {
+            val intent = Intent(this, UserProfileActivity::class.java)
+            startActivity(intent)
         }
     }
 
