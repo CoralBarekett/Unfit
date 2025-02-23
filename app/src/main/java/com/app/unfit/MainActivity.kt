@@ -18,11 +18,6 @@ class MainActivity : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
 
-        // Auto-redirect if user is logged in
-        if (auth.currentUser != null) {
-            navigateToHome()
-        }
-
         // Setup Buttons
         val signUpButton = findViewById<Button>(R.id.main_activity_signup_button)
         val loginButton = findViewById<Button>(R.id.main_activity_login_button)
@@ -38,9 +33,18 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        // Check if user is signed in
+        if (auth.currentUser != null) {
+            navigateToHome()
+        }
+    }
+
     // Redirect logged-in users to home screen
     private fun navigateToHome() {
         val intent = Intent(this, HomeActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
         finish()
     }

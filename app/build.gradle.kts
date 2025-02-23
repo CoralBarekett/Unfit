@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("org.jetbrains.kotlin.kapt")
     id("com.google.gms.google-services")
 }
 
@@ -37,6 +38,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.cardview)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -46,7 +48,7 @@ dependencies {
     // Firebase Dependencies
     implementation(platform("com.google.firebase:firebase-bom:33.9.0")) // Firebase BOM
     implementation("com.google.firebase:firebase-auth-ktx") // Firebase Authentication
-    implementation("com.google.android.gms:play-services-auth:20.5.0")
+    implementation("com.google.android.gms:play-services-auth:20.7.0")
     implementation("com.google.firebase:firebase-firestore-ktx") // Firestore (for user data)
 
     // Testing Dependencies
