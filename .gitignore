@@ -1,5 +1,8 @@
-*.iml
-.gradle
+/build/
+/app/build/
+
+
+# Ignore local configuration files
 /local.properties
 /.idea/caches
 /.idea/libraries
@@ -7,8 +10,16 @@
 /.idea/workspace.xml
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
+*.iml
+.gradle
+
+# Ignore API keys and sensitive files
+/app/google-services.json
+
+# Ignore system files
 .DS_Store
-/build
+Thumbs.db
+
 /captures
 .externalNativeBuild
 .cxx
