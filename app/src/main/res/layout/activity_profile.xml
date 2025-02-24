@@ -25,23 +25,26 @@
             android:layout_height="wrap_content"
             android:layout_weight="1">
 
-            <!-- Using regular ImageView instead of CircleImageView -->
             <ImageView
                 android:id="@+id/profile_image"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:src="@android:drawable/ic_menu_myplaces"
+                android:src="@drawable/user_icon"
                 android:layout_centerHorizontal="true"/>
 
             <ImageButton
                 android:id="@+id/edit_profile_image_button"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_alignEnd="@id/profile_image"
                 android:layout_alignBottom="@id/profile_image"
+                android:layout_marginEnd="-10dp"
+                android:layout_marginBottom="-5dp"
                 android:background="@drawable/circle_background"
-                android:src="@android:drawable/ic_menu_edit"
+                android:src="@drawable/edit_icon"
+                android:scaleType="centerInside"
                 android:contentDescription="Edit profile image"/>
+
         </RelativeLayout>
 
         <!-- User Info Layout -->
@@ -71,10 +74,11 @@
 
                 <ImageButton
                     android:id="@+id/edit_username_button"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:src="@android:drawable/ic_menu_edit"
+                    android:src="@drawable/edit_icon"
+                    android:scaleType="centerInside"
                     android:contentDescription="Edit username"/>
             </LinearLayout>
 
@@ -96,10 +100,11 @@
 
                 <ImageButton
                     android:id="@+id/edit_email_button"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:src="@android:drawable/ic_menu_edit"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/edit_icon"
+                    android:scaleType="centerInside"
                     android:contentDescription="Edit email"/>
             </LinearLayout>
         </LinearLayout>
