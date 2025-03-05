@@ -6,7 +6,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
-import android.view.MenuItem
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
@@ -14,13 +14,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 
-class UserProfileActivity : AppCompatActivity() {
+class UserProfileActivity : BaseActivity() {
 
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
@@ -34,6 +33,7 @@ class UserProfileActivity : AppCompatActivity() {
     private lateinit var editProfileImageButton: ImageButton
     private lateinit var editUsernameButton: ImageButton
     private lateinit var editEmailButton: ImageButton
+    private lateinit var backButton: ImageView
 
     private var selectedImageUri: Uri? = null
     private var currentFirstName: String = ""
@@ -48,13 +48,16 @@ class UserProfileActivity : AppCompatActivity() {
         }
     }
 
+    override fun getContentLayoutId(): Int {
+        return R.layout.activity_profile_content
+    }
+
+    override fun getNavigationMenuItemId(): Int {
+        return R.id.nav_profile
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_profile)
-
-        // Enable back button in action bar
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = "Profile"
 
         // Initialize Firebase
         auth = FirebaseAuth.getInstance()
@@ -79,6 +82,7 @@ class UserProfileActivity : AppCompatActivity() {
         editProfileImageButton = findViewById(R.id.edit_profile_image_button)
         editUsernameButton = findViewById(R.id.edit_username_button)
         editEmailButton = findViewById(R.id.edit_email_button)
+        backButton = findViewById(R.id.profile_activity_back_button)
     }
 
     private fun loadUserData() {
@@ -132,6 +136,11 @@ class UserProfileActivity : AppCompatActivity() {
     }
 
     private fun setupButtons() {
+        // Back button
+        backButton.setOnClickListener {
+            finish()
+        }
+
         // Edit profile button
         editProfileButton.setOnClickListener {
             Toast.makeText(this, "Edit profile coming soon!", Toast.LENGTH_SHORT).show()
@@ -260,6 +269,7 @@ class UserProfileActivity : AppCompatActivity() {
         val currentUser = auth.currentUser ?: return
         val storageRef = storage.reference.child("profile_images/${currentUser.uid}")
 
+
         storageRef.putFile(imageUri)
             .addOnSuccessListener {
                 storageRef.downloadUrl.addOnSuccessListener { uri ->
@@ -278,14 +288,5 @@ class UserProfileActivity : AppCompatActivity() {
                 Log.e("UserProfileActivity", "Error uploading profile image", e)
                 Toast.makeText(this, "Failed to upload image", Toast.LENGTH_SHORT).show()
             }
-    }
-
-    // Handle back button click
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home) {
-            finish()
-            return true
-        }
-        return super.onOptionsItemSelected(item)
     }
 }
