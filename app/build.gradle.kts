@@ -49,10 +49,14 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:33.9.0")) // Firebase BOM
     implementation("com.google.firebase:firebase-auth-ktx") // Firebase Authentication
     implementation("com.google.android.gms:play-services-auth:20.7.0")
-    implementation("com.google.firebase:firebase-firestore-ktx") // Firestore (for user data)
+    implementation("com.google.firebase:firebase-firestore-ktx")
+    implementation(libs.firebase.storage.ktx) // Firestore (for user data)
 
     // Testing Dependencies
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    // CircleImageView
+    implementation("de.hdodenhof:circleimageview:3.1.0")
 }

@@ -23,6 +23,9 @@
         <activity
             android:name=".HomeActivity"
             android:exported="false" /> <!-- Google Sign-In Metadata -->
+        <activity
+            android:name=".UserProfileActivity"
+            android:exported="false" />
         <meta-data
             android:name="com.google.android.gms.auth.api.signin"
             android:value="@string/default_web_client_id" />

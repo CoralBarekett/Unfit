@@ -8,7 +8,6 @@ import android.util.Log
 import android.widget.Button
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -16,7 +15,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.app.unfit.model.Post
 
-class HomeActivity : AppCompatActivity() {
+class HomeActivity : BaseActivity() {
 
     private var posts: MutableList<Post> = mutableListOf()
     private lateinit var auth: FirebaseAuth
@@ -51,10 +50,17 @@ class HomeActivity : AppCompatActivity() {
         )
     )
 
+    override fun getContentLayoutId(): Int {
+        return R.layout.activity_home_content
+    }
+
+    override fun getNavigationMenuItemId(): Int {
+        return R.id.nav_home
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_home)
         Log.d("HomeActivity", "onCreate started")
 
         try {
